@@ -1,33 +1,30 @@
+
 "use client";
 import React, { useState, useEffect } from "react";
 import ContactForm from "@/components/CheckOut/ContactForm";
 import DeliveryForm from "@/components/CheckOut/DeliveryForm";
-import ShippingMethod from "@/components/CheckOut/ShippingMethod";
 import PaymentOptions from "@/components/CheckOut/PaymentOptions";
 import BillingAddressForm from "@/components/CheckOut/BillingAddressForm";
-import PaymentNotice from "@/components/CheckOut/PaymentNotice";
 import OrderSummary from "@/components/CheckOut/OrderSummary";
-import { useCart } from "@/components/CartContext"; // Import the useCart hook
+import { useCart } from "@/components/CartContext";
 import config from "@/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { Address, OrderData, ContactDetails } from "@/types/Checkout";
-import { CartItem } from "@/types/CartItem"; // Adjust the import path as necessary
+import { CartItem } from "@/types/CartItem";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
 
 const CheckoutPage: React.FC = () => {
-  // Use the cart context instead of local state for cart items
   const { cartItems, clearCart, getTotalAmount } = useCart();
 
-  const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    useState<string>("card");
-  const [deliveryAddress, setDeliveryAddress] = useState<Address>(
-    {} as Address
-  );
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>("card");
+  const [deliveryAddress, setDeliveryAddress] = useState<Address>({} as Address);
   const [billingAddress, setBillingAddress] = useState<Address>({} as Address);
   const [finalAmount, setFinalPayAmount] = useState<number>(0);
   const [discountAmount, setDiscountAmount] = useState<number>(0);
-  const [shippingFee] = useState<number>(0);
+  const [shippingFee] = useState<number>(0); // Assuming free shipping for now
   const [sameAddressStatus, setSameAddressStatus] = useState<number>(1);
   const [contactDetails, setContactDetails] = useState<ContactDetails>({
     email: "",
@@ -37,100 +34,47 @@ const CheckoutPage: React.FC = () => {
   const [processing, setProcessing] = useState<boolean>(false);
 
   useEffect(() => {
-    // Get total amount from cart context
     const cartTotal = getTotalAmount();
     setFinalPayAmount(cartTotal);
   }, [cartItems, getTotalAmount]);
 
-  console.log("Cart Items:", cartItems);
-  console.log("Cart Total:", getTotalAmount());
+  const validateEmail = (email: string): boolean => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
 
   const handlePayment = async (): Promise<void> => {
-    if (processing) return; // Prevent multiple clicks
-    setProcessing(true); // Disable button and show loading
+    if (processing) return;
 
-    // Validate contact details
-    if (!contactDetails.email || !validateEmail(contactDetails.email)) {
-      toast.error("Please enter a valid email address.", {
-        position: "top-right",
-        autoClose: 3000,
-      });
-
-      setProcessing(false);
-      return;
-    }
-
-    // Validate delivery address
-    if (
-      !deliveryAddress.firstName ||
-      !deliveryAddress.lastName ||
-      !deliveryAddress.address ||
-      !deliveryAddress.city ||
-      !deliveryAddress.postalCode
-    ) {
-      toast.error("Please fill in all required fields for delivery.", {
-        position: "top-right",
-        autoClose: 3000,
-      });
-
-      setProcessing(false);
-      return;
-    }
-
-    // Validate billing address if applicable
-    if (
-      sameAddressStatus === 0 &&
-      (!billingAddress.firstName ||
-        !billingAddress.lastName ||
-        !billingAddress.address ||
-        !billingAddress.city ||
-        !billingAddress.postalCode)
-    ) {
-      toast.error("Please fill in all required fields for billing address.", {
-        position: "top-right",
-        autoClose: 3000,
-      });
-
-      setProcessing(false);
-      return;
-    }
-
-    // Validate promo code if provided
-    if (promoCode && !isValidPromoCode(String(promoCode))) {
-      toast.error("Invalid promo code.", {
-        position: "top-right",
-        autoClose: 3000,
-      });
-
-      setProcessing(false);
-      return;
-    }
-
-    // Validate payment method
-    if (!selectedPaymentMethod) {
-      toast.error("Please select a payment method.", {
-        position: "top-right",
-        autoClose: 3000,
-      });
-
-      setProcessing(false);
-      return;
-    }
-
-    // Check if cart is empty
     if (cartItems.length === 0) {
-      toast.error("Your cart is empty. Please add items before checkout.", {
-        position: "top-right",
-        autoClose: 3000,
-      });
-
-      setProcessing(false);
+      toast.error("Your cart is empty.", { position: "top-right" });
       return;
     }
 
-    // Collect data from forms
+    if (!contactDetails.email || !validateEmail(contactDetails.email)) {
+      toast.error("Please enter a valid email address.", { position: "top-right" });
+      return;
+    }
+
+    if (!deliveryAddress.firstName || !deliveryAddress.lastName || !deliveryAddress.address || !deliveryAddress.city || !deliveryAddress.postalCode) {
+      toast.error("Please fill all required delivery address fields.", { position: "top-right" });
+      return;
+    }
+
+    if (sameAddressStatus === 0 && (!billingAddress.firstName || !billingAddress.lastName || !billingAddress.address || !billingAddress.city || !billingAddress.postalCode)) {
+      toast.error("Please fill all required billing address fields.", { position: "top-right" });
+      return;
+    }
+
+    if (!selectedPaymentMethod) {
+      toast.error("Please select a payment method.", { position: "top-right" });
+      return;
+    }
+
+    setProcessing(true);
+
     const orderData: OrderData = {
-      items: cartItems as CartItem[], // Type assertion here
+      items: cartItems as CartItem[],
       totalAmount: finalAmount,
       discountAmount: discountAmount,
       shippingFee: shippingFee,
@@ -138,161 +82,120 @@ const CheckoutPage: React.FC = () => {
       paymentMethod: selectedPaymentMethod,
       contactDetails: contactDetails,
       shippingAddress: deliveryAddress,
-      billingAddress:
-        sameAddressStatus === 1 ? deliveryAddress : billingAddress,
+      billingAddress: sameAddressStatus === 1 ? deliveryAddress : billingAddress,
       sameAddressStatus: sameAddressStatus,
     };
 
     try {
-      if (selectedPaymentMethod === "cod") {
-        // COD order logic
-        const response = await fetch(
-          `${config.API_BASE_URL}/payment/initiate-cod-invoice`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(orderData),
-          }
-        );
+      const endpoint = selectedPaymentMethod === "cod"
+        ? `${config.API_BASE_URL}/payment/initiate-cod-invoice`
+        : `${config.API_BASE_URL}/payment/initiate-payment`;
 
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderData),
+      });
+
+      if (selectedPaymentMethod === "cod") {
         if (response.status === 201) {
           const data = await response.json();
-          const invoiceNumber = data.invoice_id || data.order_id;
-
-          toast.success("Order placed successfully!", {
-            position: "top-right",
-            autoClose: 3000,
-          });
-
-          // Clear the cart after successful order
+          toast.success("Order placed successfully!", { position: "top-right" });
           clearCart();
-
-          // Redirect to order confirmation page
-          window.location.href = `/order-confirmation?order_id=${invoiceNumber}`;
+          window.location.href = `/order-confirmation?order_id=${data.invoice_id || data.order_id}`;
         } else {
           throw new Error("Failed to create COD invoice.");
         }
       } else {
-        const response = await fetch(
-          `${config.API_BASE_URL}/payment/initiate-payment`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(orderData),
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Order creation failed");
-        }
-
-        const html = await response.text(); // Read the response as HTML text
-
-        // Create a new div element to inject the HTML into the page
+        if (!response.ok) throw new Error("Order creation failed");
+        const html = await response.text();
         const iframeContainer = document.createElement("div");
         iframeContainer.innerHTML = html;
-
-        // Check if the response contains the form and submit it
         const form = iframeContainer.querySelector("form");
         if (form) {
-          document.body.appendChild(form); // Append the form to the document body
-          form.submit(); // Submit the form to initiate the payment
-
-          // Note: Cart will be cleared after successful payment in the response handler
+          document.body.appendChild(form);
+          form.submit();
         } else {
-          toast.error("Failed to initiate payment.", {
-            position: "top-right",
-            autoClose: 3000,
-          });
+          toast.error("Failed to initiate payment.", { position: "top-right" });
         }
       }
     } catch (error: unknown) {
       console.error("Error:", error);
-      toast.error("There was an issue processing your order.", {
-        position: "top-right",
-        autoClose: 3000,
-      });
+      toast.error("There was an issue processing your order.", { position: "top-right" });
     } finally {
-      setProcessing(false); // Re-enable button after processing
+      setProcessing(false);
     }
   };
 
-  // Helper function to validate email
-  const validateEmail = (email: string): boolean => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
-
-  // Helper function to validate promo code
-  const isValidPromoCode = (code: string): boolean => {
-    // Example validation: check if promo code has at least 5 characters
-    return code.length >= 5;
-  };
-
   return (
-    <section className="">
-      <div className="w-full container mx-auto">
-        <div className="flex flex-col md:flex-row">
-          {/* Left Column */}
-          <div className="w-full md:w-1/2 p-4">
-            <ContactForm setContactDetails={setContactDetails} />
-            <DeliveryForm setDeliveryAddress={setDeliveryAddress} />
-            <BillingAddressForm
-              shippingAddress={deliveryAddress}
-              setBillingAddress={setBillingAddress}
-              setSameAddressStatus={setSameAddressStatus}
-            />
-            <ShippingMethod />
+    <section className="bg-gray-50 dark:bg-gray-950 py-12 lg:py-16">
+      <div className="container mx-auto px-4">
+        {cartItems.length === 0 ? (
+           <div className="text-center">
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">Your Cart is Empty</h1>
+            <p className="text-gray-600 dark:text-gray-400 mb-8">Looks like you haven&apos;t added anything to your cart yet.</p>
+            <Link href="/shop">
+              <span className="bg-pink-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-pink-700 transition-colors">
+                Continue Shopping
+              </span>
+            </Link>
           </div>
-          {/* Right Column */}
-          <div className="w-full md:w-1/2 p-4">
-            <OrderSummary
-              cart={cartItems}
-              finalAmount={finalAmount}
-              shippingFee={shippingFee}
-              setPromoCode={setPromoCode}
-              setFinalPayAmount={setFinalPayAmount}
-              setDiscountAmount={setDiscountAmount}
-            />
-
-            <PaymentOptions
-              setSelectedPaymentMethod={setSelectedPaymentMethod}
-            />
-            <PaymentNotice />
-
-            <div className="mx-auto p-6 bg-white">
-              <button
-                onClick={handlePayment}
-                disabled={processing || cartItems.length === 0}
-                className={`w-full px-6 py-3 text-white rounded-lg text-center font-semibold ${
-                  processing || cartItems.length === 0
-                    ? "bg-gray-400"
-                    : "bg-black hover:bg-gray-800"
-                }`}
-              >
-                {processing ? "Processing..." : "Pay now"}
-              </button>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+            {/* Left Column: Forms */}
+            <div className="lg:col-span-7 space-y-8">
+              <ContactForm setContactDetails={setContactDetails} />
+              <DeliveryForm setDeliveryAddress={setDeliveryAddress} />
+              <BillingAddressForm
+                shippingAddress={deliveryAddress}
+                setBillingAddress={setBillingAddress}
+                setSameAddressStatus={setSameAddressStatus}
+              />
+            </div>
+            
+            {/* Right Column: Summary & Payment */}
+            <div className="lg:col-span-5">
+              <div className="sticky top-24 space-y-8">
+                <OrderSummary
+                  cart={cartItems}
+                  finalAmount={finalAmount}
+                  shippingFee={shippingFee}
+                  setPromoCode={setPromoCode}
+                  setFinalPayAmount={setFinalPayAmount}
+                  setDiscountAmount={setDiscountAmount}
+                />
+                <PaymentOptions
+                  setSelectedPaymentMethod={setSelectedPaymentMethod}
+                />
+                <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+                  <button
+                    onClick={handlePayment}
+                    disabled={processing}
+                    className="w-full px-6 py-4 text-white rounded-lg text-center font-semibold bg-pink-600 hover:bg-pink-700 transition-colors disabled:bg-pink-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    {processing ? (
+                      <>
+                        <Loader2 className="animate-spin h-5 w-5" />
+                        Processing...
+                      </>
+                    ) : (
+                      "Pay Now"
+                    )}
+                  </button>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-4 text-center">
+                    By clicking &quot;Pay now&quot;, you agree to our Terms of Service and Privacy Policy. All transactions are secure and encrypted.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
-
-      {/* Overlay */}
-      {processing && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 shadow-lg flex flex-col items-center">
-            <div className="loader border-t-4 border-gray-800 rounded-full w-16 h-16 animate-spin mb-4"></div>
-            <p className="text-lg font-medium">Processing your order...</p>
-          </div>
-        </div>
-      )}
-      <ToastContainer />
+      <ToastContainer position="bottom-right" theme="colored" />
     </section>
   );
 };
 
 export default CheckoutPage;
+
+    
