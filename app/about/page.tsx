@@ -18,7 +18,7 @@ export const viewport: Viewport = {
 
 const Page: React.FC = () => {
   return (
-    <div className="bg-white dark:bg-gray-900">
+    <div className="bg-white dark:bg-gray-950">
       <AboutUsPage />
     </div>
   );
