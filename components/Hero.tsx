@@ -90,7 +90,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative h-[50vh] sm:h-[650px] w-full overflow-hidden bg-gray-900">
+    <section className="relative h-[60vh] sm:h-[650px] w-full overflow-hidden bg-gray-900">
       {slides.map((slide, index) => (
         <div
           key={slide.id}
@@ -111,14 +111,14 @@ export default function Hero() {
       ))}
 
       <div className="relative z-10 h-full container mx-auto px-6 sm:px-8 flex items-center">
-        <div className="max-w-2xl text-white">
+        <div className="max-w-xl text-white">
           <div className="mb-4">
-            <span className="inline-block bg-gradient-to-r from-pink-500 to-rose-500 text-white text-sm font-bold px-4 py-2 rounded-full shadow-lg animate-fade-in-up">
+            <span className="inline-block bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg animate-fade-in-up uppercase tracking-wider">
               {slides[currentSlide].promotion}
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold leading-tight drop-shadow-2xl mb-4 animate-fade-in">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight drop-shadow-2xl mb-4 animate-fade-in">
             {slides[currentSlide].title}{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-400">
               {slides[currentSlide].titleAccent}
@@ -131,7 +131,7 @@ export default function Hero() {
 
           <div className="flex flex-row sm:flex-row gap-2 sm:gap-4 animate-fade-in-up animation-delay-500">
             <Link href={slides[currentSlide].link}>
-              <button className="group inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-base font-semibold px-8 py-4 rounded-full shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer">
+              <button className="group inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-base font-semibold px-8 py-3 rounded-full shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer">
                 <span>Shop Now</span>
                 <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               </button>
@@ -162,9 +162,9 @@ export default function Hero() {
             key={index}
             onClick={() => goToSlide(index)}
             aria-label={`Go to slide ${index + 1}`}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
               index === currentSlide
-                ? "bg-white scale-125"
+                ? "bg-white scale-125 w-4"
                 : "bg-white/50 hover:bg-white/70"
             }`}
           />
