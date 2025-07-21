@@ -2,7 +2,7 @@
 
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, Send } from "lucide-react";
 
 interface FormData {
   full_name: string;
@@ -43,7 +43,6 @@ function ContactUsPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Basic validation
     if (!formData.full_name || !formData.email || !formData.message) {
       setStatusMessage({
         type: "error",
@@ -62,7 +61,7 @@ function ContactUsPage() {
       if (response.status === 201) {
         setStatusMessage({
           type: "success",
-          text: "Message sent successfully!",
+          text: "Message sent successfully! We'll be in touch soon.",
         });
         setFormData({
           full_name: "",
@@ -90,128 +89,134 @@ function ContactUsPage() {
   };
 
   return (
-    <section className="py-16 bg-[#fff0e9] dark:bg-[#1e1e1e] transition-colors">
-      <div className="flex flex-col md:flex-row max-w-7xl mx-auto shadow-lg rounded-lg overflow-hidden mt-6 mb-6 bg-[#fff0e9]">
-        {/* Left Column */}
-        <div className="bg-pink-600 text-white p-8 md:p-12 md:w-1/2">
-          <h2 className="text-3xl md:text-4xl font-bold mb-2">
-            Let&#39;s chat.
-          </h2>
-          <h3 className="text-3xl md:text-4xl font-bold mb-4">
-            Tell me about your project.
-          </h3>
-          <p className="mb-8">Let&#39;s create something together</p>
+    <section className="py-16 lg:py-24 bg-rose-50/50 dark:bg-gray-900 transition-colors">
+      <div className="container mx-auto px-6">
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-pink-600 via-rose-500 to-orange-500 bg-clip-text text-transparent mb-4">
+            Get in Touch
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300">
+            We&apos;re here to help and answer any question you might have. We look forward to hearing from you!
+          </p>
+        </div>
 
-          <div className="space-y-6">
-            <div className="bg-white text-[#302d2e] rounded-md p-4 flex items-center">
-              <Mail className="mr-3" />
-              <span className="font-medium">info@parisbeauty.lk</span>
+        <div className="grid md:grid-cols-2 gap-12 bg-white dark:bg-gray-800/50 p-8 md:p-12 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700/50">
+          {/* Left Column: Contact Info */}
+          <div className="space-y-8">
+            <div>
+              <h2 className="text-2xl font-semibold mb-2 text-gray-800 dark:text-white">Contact Information</h2>
+              <p className="text-gray-500 dark:text-gray-400">
+                Fill up the form and our team will get back to you within 24 hours.
+              </p>
             </div>
-            <div className="bg-white text-[#302d2e] rounded-md p-4 flex items-center">
-              <Phone className="mr-3" />
-              <span className="font-medium">071 2 375 455</span>
-            </div>
-            <div className="bg-white text-[#302d2e] rounded-md p-6">
-              <div className="flex items-start">
-                <MapPin className="mr-3 mt-1 flex-shrink-0" />
-                <div>
-                  <p className="font-medium">Our Head Office,</p>
-                  <p className="font-medium">parisbeauty (PVT) LTD.</p>
-                  <p>
-                    135, West Tower, World Trade Center, Colombo 01, Sri Lanka
-                  </p>
+            
+            <div className="space-y-6">
+              <a href="tel:0712375455" className="flex items-center group">
+                <div className="p-3 bg-rose-100 dark:bg-rose-900/50 rounded-full group-hover:bg-rose-500 transition-colors">
+                  <Phone className="h-5 w-5 text-rose-500 group-hover:text-white transition-colors" />
                 </div>
-              </div>
-            </div>
-            <div className="bg-white text-[#302d2e] rounded-md p-6">
-              <div className="flex items-start">
-                <MapPin className="mr-3 mt-1 flex-shrink-0" />
-                <div>
-                  <p className="font-medium">Operation Branch,</p>
-                  <p>
+                <div className="ml-4">
+                  <span className="text-gray-700 dark:text-gray-300 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">071 2 375 455</span>
+                </div>
+              </a>
+
+              <a href="mailto:info@parisbeauty.lk" className="flex items-center group">
+                <div className="p-3 bg-rose-100 dark:bg-rose-900/50 rounded-full group-hover:bg-rose-500 transition-colors">
+                  <Mail className="h-5 w-5 text-rose-500 group-hover:text-white transition-colors" />
+                </div>
+                <div className="ml-4">
+                  <span className="text-gray-700 dark:text-gray-300 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">info@parisbeauty.lk</span>
+                </div>
+              </a>
+              
+              <div className="flex items-start group">
+                <div className="p-3 bg-rose-100 dark:bg-rose-900/50 rounded-full">
+                  <MapPin className="h-5 w-5 text-rose-500" />
+                </div>
+                <div className="ml-4">
+                  <p className="text-gray-700 dark:text-gray-300">
                     135, West Tower, World Trade Center, Colombo 01, Sri Lanka
                   </p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Right Column - Contact Form */}
-        <div className="bg-white p-8 md:p-12 md:w-1/2">
-          <h2 className="text-3xl font-bold mb-6 text-gray-900">
-            Send us a message
-          </h2>
+          {/* Right Column: Contact Form */}
+          <div>
+            <form className="space-y-5" onSubmit={handleSubmit}>
+              <div className="grid sm:grid-cols-2 gap-5">
+                <input
+                  type="text"
+                  name="full_name"
+                  placeholder="Full name*"
+                  value={formData.full_name}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 transition-colors"
+                  required
+                />
+                 <input
+                  type="email"
+                  name="email"
+                  placeholder="Email address*"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 transition-colors"
+                  required
+                />
+              </div>
 
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="full_name"
-              placeholder="Full name*"
-              value={formData.full_name}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E60083]"
-              required
-            />
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Phone Number (Optional)"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 transition-colors"
+              />
 
-            <input
-              type="email"
-              name="email"
-              placeholder="Email address*"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E60083]"
-              required
-            />
+              <input
+                type="text"
+                name="subject"
+                placeholder="Subject"
+                value={formData.subject}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 transition-colors"
+              />
 
-            <input
-              type="tel"
-              name="phone"
-              placeholder="Phone Number"
-              value={formData.phone}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E60083]"
-            />
+              <textarea
+                name="message"
+                placeholder="Your Message*"
+                rows={5}
+                value={formData.message}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 transition-colors"
+                required
+              ></textarea>
 
-            <input
-              type="text"
-              name="subject"
-              placeholder="Subject"
-              value={formData.subject}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E60083]"
-            />
-
-            <textarea
-              name="message"
-              placeholder="Tell us more about *"
-              rows={5}
-              value={formData.message}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E60083]"
-              required
-            ></textarea>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-pink-600 text-white py-3 px-6 rounded-md hover:bg-pink-400 transition-colors"
-            >
-              {loading ? "Sending..." : "Send message"}
-            </button>
-
-            {statusMessage && (
-              <p
-                className={`text-sm mt-3 ${
-                  statusMessage.type === "success"
-                    ? "text-green-600"
-                    : "text-red-600"
-                }`}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full flex items-center justify-center gap-2 bg-rose-600 text-white py-3 px-6 rounded-lg hover:bg-rose-700 transition-all duration-300 disabled:bg-rose-400 disabled:cursor-not-allowed transform hover:scale-105"
               >
-                {statusMessage.text}
-              </p>
-            )}
-          </form>
+                {loading ? "Sending..." : "Send Message"}
+                {!loading && <Send className="h-4 w-4" />}
+              </button>
+
+              {statusMessage && (
+                <p
+                  className={`text-sm text-center mt-4 ${
+                    statusMessage.type === "success"
+                      ? "text-green-600"
+                      : "text-red-600"
+                  }`}
+                >
+                  {statusMessage.text}
+                </p>
+              )}
+            </form>
+          </div>
         </div>
       </div>
     </section>
