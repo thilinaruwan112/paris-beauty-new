@@ -249,7 +249,7 @@ export default function ProductView({ product }: { product: FormattedProduct }) 
           <div className="mt-16 lg:mt-24">
             <div className="border-b border-gray-200 dark:border-gray-700">
               <div className="flex space-x-8" role="tablist">
-                {["description", "specifications", "reviews"].map((tab) => (
+                {["description", "specifications"].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -284,74 +284,77 @@ export default function ProductView({ product }: { product: FormattedProduct }) 
                   ))}
                 </div>
               )}
-              {activeTab === "reviews" && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <div className="space-y-8">
-                        {reviews.length > 0 ? (
-                            reviews.map((review) => (
-                            <div key={review.id} className="border-b border-gray-100 dark:border-gray-800 pb-6">
-                                <div className="flex items-start gap-4">
-                                <div className="w-10 h-10 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center font-bold text-lg">
-                                        {review.user.charAt(0)}
-                                    </div>
-                                <div className="flex-1">
-                                        <div className="flex items-center justify-between">
-                                            <div>
-                                                <h4 className="font-semibold text-gray-900 dark:text-white">{review.user}</h4>
-                                                <p className="text-xs text-gray-500 dark:text-gray-400">{review.date}</p>
-                                            </div>
-                                            <div className="flex items-center" aria-label={`Rated ${review.rating} out of 5 stars`}>
-                                                {[...Array(5)].map((_, i) => (
-                                                <Star key={i} className={`h-4 w-4 ${i < review.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
-                                                ))}
-                                            </div>
-                                        </div>
-                                        <h5 className="font-semibold mt-2 mb-1">{review.title}</h5>
-                                        <p className="text-sm text-gray-600 dark:text-gray-300">{review.comment}</p>
+            </div>
+          </div>
+
+          {/* Reviews Section */}
+          <div className="mt-16 lg:mt-24">
+             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Customer Reviews & Ratings</h2>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div className="space-y-8">
+                    {reviews.length > 0 ? (
+                        reviews.map((review) => (
+                        <div key={review.id} className="border-b border-gray-100 dark:border-gray-800 pb-6">
+                            <div className="flex items-start gap-4">
+                            <div className="w-10 h-10 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center font-bold text-lg">
+                                    {review.user.charAt(0)}
                                 </div>
+                            <div className="flex-1">
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <h4 className="font-semibold text-gray-900 dark:text-white">{review.user}</h4>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400">{review.date}</p>
+                                        </div>
+                                        <div className="flex items-center" aria-label={`Rated ${review.rating} out of 5 stars`}>
+                                            {[...Array(5)].map((_, i) => (
+                                            <Star key={i} className={`h-4 w-4 ${i < review.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <h5 className="font-semibold mt-2 mb-1">{review.title}</h5>
+                                    <p className="text-sm text-gray-600 dark:text-gray-300">{review.comment}</p>
+                            </div>
+                            </div>
+                        </div>
+                        ))
+                    ) : (
+                        <p className="text-gray-600 dark:text-gray-300">No reviews yet. Be the first to share your thoughts!</p>
+                    )}
+                </div>
+                <div>
+                    <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg">
+                       <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Write a Review</h3>
+                        <form onSubmit={handleReviewSubmit} className="space-y-4">
+                            <div>
+                                <label htmlFor="reviewUser" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Name</label>
+                                <input type="text" id="reviewUser" value={reviewUser} onChange={(e) => setReviewUser(e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500" required />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Rating</label>
+                                <div className="flex items-center gap-1">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <button type="button" key={star} onClick={() => setReviewRating(star)} className="focus:outline-none">
+                                        <Star className={`h-6 w-6 cursor-pointer transition-colors ${reviewRating >= star ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 hover:text-yellow-300'}`} />
+                                    </button>
+                                ))}
                                 </div>
                             </div>
-                            ))
-                        ) : (
-                            <p className="text-gray-600 dark:text-gray-300">No reviews yet. Be the first to share your thoughts!</p>
-                        )}
-                    </div>
-                    <div>
-                        <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg">
-                           <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Write a Review</h3>
-                            <form onSubmit={handleReviewSubmit} className="space-y-4">
-                                <div>
-                                    <label htmlFor="reviewUser" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Name</label>
-                                    <input type="text" id="reviewUser" value={reviewUser} onChange={(e) => setReviewUser(e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500" required />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Rating</label>
-                                    <div className="flex items-center gap-1">
-                                    {[1, 2, 3, 4, 5].map((star) => (
-                                        <button type="button" key={star} onClick={() => setReviewRating(star)} className="focus:outline-none">
-                                            <Star className={`h-6 w-6 cursor-pointer transition-colors ${reviewRating >= star ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 hover:text-yellow-300'}`} />
-                                        </button>
-                                    ))}
-                                    </div>
-                                </div>
-                                <div>
-                                    <label htmlFor="reviewTitle" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Review Title</label>
-                                    <input type="text" id="reviewTitle" value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500" required />
-                                </div>
-                                <div>
-                                    <label htmlFor="reviewComment" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Review</label>
-                                    <textarea id="reviewComment" value={reviewComment} onChange={(e) => setReviewComment(e.target.value)} rows={4} className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500" required></textarea>
-                                </div>
-                                <button type="submit" className="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors">
-                                    <Send className="h-4 w-4" />
-                                    <span>Submit Review</span>
-                                </button>
-                            </form>
-                        </div>
+                            <div>
+                                <label htmlFor="reviewTitle" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Review Title</label>
+                                <input type="text" id="reviewTitle" value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500" required />
+                            </div>
+                            <div>
+                                <label htmlFor="reviewComment" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Review</label>
+                                <textarea id="reviewComment" value={reviewComment} onChange={(e) => setReviewComment(e.target.value)} rows={4} className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500" required></textarea>
+                            </div>
+                            <button type="submit" className="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors">
+                                <Send className="h-4 w-4" />
+                                <span>Submit Review</span>
+                            </button>
+                        </form>
                     </div>
                 </div>
-              )}
-            </div>
+              </div>
           </div>
         </div>
       </div>
