@@ -11,8 +11,7 @@ import config from "@/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { Address, OrderData, ContactDetails } from "@/types/Checkout";
-import { CartItem } from "@/types/CartItem";
+import { Address, OrderData, ContactDetails, CartItem } from "@/types";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 
@@ -197,5 +196,3 @@ const CheckoutPage: React.FC = () => {
 };
 
 export default CheckoutPage;
-
-    
