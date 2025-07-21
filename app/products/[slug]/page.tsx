@@ -2,12 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import ProductView from "@/components/ProductView";
-import { Product } from "@/types/product"; // Adjust the import path as necessary
-import {
-  ProductReview,
-  FormattedProduct,
-  ProductSpecifications,
-} from "@/types/ViewProduct";
+import { Product, ProductReview, FormattedProduct, ProductSpecifications } from "@/types";
 
 const getValidImagePath = (imagePath: string): string => {
   if (!imagePath) {
@@ -56,9 +51,6 @@ export default function Page({
           responseData.data && responseData.data.length > 0
             ? responseData.data[0]
             : responseData;
-
-        console.log("Raw API response:", responseData);
-        console.log("Product data extracted:", productData);
 
         setProduct(productData);
         setIsLoading(false);
@@ -114,8 +106,6 @@ export default function Page({
   const parsedSpecifications: ProductSpecifications = {};
   try {
     if (product.specifications) {
-      console.log("Raw specifications:", product.specifications);
-
       const specs =
         typeof product.specifications === "string"
           ? JSON.parse(product.specifications)
@@ -141,10 +131,6 @@ export default function Page({
           parsedSpecifications[key] = specs[key];
         }
       });
-
-      console.log("Parsed and formatted specifications:", parsedSpecifications);
-    } else {
-      console.log("No specifications data available");
     }
   } catch (e) {
     console.error("Error parsing specifications JSON:", e);
@@ -177,13 +163,11 @@ export default function Page({
     images: [
       getValidImagePath(product.image_path),
       getValidImagePath(product.hover_image || ""),
-      // Add placeholder images if needed
       "/images/placeholder1.jpg",
       "/images/placeholder2.jpg",
     ].filter(Boolean),
     breadcrumbs: ["Home", product.category || "Products", product.product_name],
   };
 
-  console.log("Product data:", formattedProduct);
   return <ProductView product={formattedProduct} />;
 }

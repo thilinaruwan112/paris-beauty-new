@@ -1,7 +1,8 @@
+"use client";
 
 import React from "react";
 import { ChevronDown } from "lucide-react";
-import { SectionHeaderProps } from "@/types/shop";
+import { SectionHeaderProps } from "@/types";
 
 const SectionHeader: React.FC<SectionHeaderProps> = ({ title, isExpanded, onToggle }) => {
   return (
@@ -16,5 +17,3 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({ title, isExpanded, onTogg
 };
 
 export default SectionHeader;
-
-    

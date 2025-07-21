@@ -1,7 +1,8 @@
+"use client";
 
 import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
-import { SortDropdownProps } from "@/types/Sidebar";
+import { SortDropdownProps } from "@/types";
 
 const SortDropdown: React.FC<SortDropdownProps> = ({ onChange, currentSort }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -68,5 +69,3 @@ const SortDropdown: React.FC<SortDropdownProps> = ({ onChange, currentSort }) =>
 };
 
 export default SortDropdown;
-
-    

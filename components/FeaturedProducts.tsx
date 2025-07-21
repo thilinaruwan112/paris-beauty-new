@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import FeaturedProductCard from "./common/FeaturedProductCard";
 import TitleHeader from "@/components/TitleHeader";
 import { useCart } from "./CartContext";
-import { Product } from "@/types/product"; 
+import { Product } from "@/types"; 
 import { motion } from "framer-motion";
 
 export default function FeaturedProducts() {

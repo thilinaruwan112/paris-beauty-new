@@ -10,7 +10,7 @@ import "swiper/css/navigation";
 
 import TrendingProductCard from "./common/TrendingProductCard";
 import TitleHeader from "@/components/TitleHeader";
-import { Product } from "@/types/product";
+import { Product, TrendingProductCardProps } from "@/types";
 
 export default function TrendingProducts() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -18,7 +18,6 @@ export default function TrendingProducts() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Move productIds inside the effect since it's static
     const productIds = [1, 3, 5, 7, 8];
 
     const fetchProducts = async () => {
@@ -34,10 +33,8 @@ export default function TrendingProducts() {
 
         const data = await res.json();
         
-        // Ensure data is an array before filtering
         const allProducts = Array.isArray(data) ? data : (data.data && Array.isArray(data.data) ? data.data : []);
 
-        // Filter and sort products by productIds order
         const filteredProducts = allProducts
           .filter((product: Product) => productIds.includes(product.product_id))
           .sort(
@@ -56,7 +53,7 @@ export default function TrendingProducts() {
     };
 
     fetchProducts();
-  }, []); // Empty dependency array is now correct
+  }, []);
 
   const renderContent = () => {
     if (loading) {

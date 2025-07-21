@@ -1,14 +1,14 @@
-
 "use client";
+
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
-import { Leaf, Droplets, Eye, Sun, Heart } from "lucide-react";
+import { Droplets, Eye, Sun, Heart } from "lucide-react";
 
 import PriceFilter from "./PriceFilter";
 import SectionHeader from "./SectionHeader";
 import Checkbox from "./Checkbox";
 import SortDropdown from "./SortDropdown";
-import { Category, SideBarProps } from "@/types/Sidebar";
+import { Category, SideBarProps } from "@/types";
 
 const SideBar: React.FC<SideBarProps> = ({ onFilterChange, activeFilters }) => {
   const [expandedSections, setExpandedSections] = useState({
@@ -169,5 +169,3 @@ const SideBar: React.FC<SideBarProps> = ({ onFilterChange, activeFilters }) => {
 };
 
 export default SideBar;
-
-    

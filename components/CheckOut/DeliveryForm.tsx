@@ -1,10 +1,9 @@
-
 "use client";
 import { useState, ChangeEvent } from "react";
-import { DeliveryAddressData, DeliveryFormProps } from "@/types/Checkout";
+import { Address, DeliveryFormProps } from "@/types";
 
 export default function DeliveryForm({ setDeliveryAddress }: DeliveryFormProps) {
-  const [formData, setFormData] = useState<DeliveryAddressData>({
+  const [formData, setFormData] = useState<Address>({
     country: "Sri Lanka",
     firstName: "",
     lastName: "",
@@ -113,10 +112,7 @@ export default function DeliveryForm({ setDeliveryAddress }: DeliveryFormProps) 
             />
           </div>
         </div>
-
       </form>
     </div>
   );
 }
-
-    

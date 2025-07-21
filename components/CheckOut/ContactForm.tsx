@@ -1,8 +1,7 @@
-
 "use client";
 
 import React, { useState, ChangeEvent } from "react";
-import { ContactDetails } from "@/types/Checkout";
+import { ContactDetails } from "@/types";
 import Link from "next/link";
 
 interface ContactFormProps {
@@ -66,5 +65,3 @@ const ContactForm: React.FC<ContactFormProps> = ({ setContactDetails }) => {
 };
 
 export default ContactForm;
-
-    

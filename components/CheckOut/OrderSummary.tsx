@@ -1,10 +1,9 @@
-
 "use client";
 import React, { useState, useEffect } from "react";
 import config from "@/config";
 import Image from "next/image";
 import { Loader2 } from "lucide-react";
-import { PromoCodeData, ApplicableProductData, OrderSummaryProps } from "@/types/Checkout";
+import { PromoCodeData, ApplicableProductData, OrderSummaryProps } from "@/types";
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({
   cart,
@@ -110,7 +109,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
     <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
       <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Order Summary</h2>
       
-      {/* Product Items */}
       <div className="space-y-4 mb-6 max-h-64 overflow-y-auto pr-2">
         {cart.map((item) => (
           <div key={item.id} className="flex items-start gap-4">
@@ -137,7 +135,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         ))}
       </div>
 
-      {/* Discount Code Input */}
       <div className="mb-4">
         <div className="flex">
           <input
@@ -159,7 +156,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         {discount > 0 && <p className="text-green-600 text-xs mt-1">Coupon applied successfully!</p>}
       </div>
 
-      {/* Pricing Details */}
       <div className="space-y-2 text-sm border-t border-gray-200 dark:border-gray-700 pt-4">
         <div className="flex justify-between text-gray-600 dark:text-gray-300">
           <span>Subtotal</span>
@@ -177,7 +173,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         )}
       </div>
 
-      {/* Total */}
       <div className="border-t border-gray-200 dark:border-gray-700 mt-4 pt-4">
         <div className="flex justify-between items-center font-bold text-lg text-gray-900 dark:text-white">
           <span>Total</span>
@@ -189,5 +184,3 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 };
 
 export default OrderSummary;
-
-    

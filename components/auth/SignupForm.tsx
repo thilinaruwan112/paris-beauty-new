@@ -23,10 +23,8 @@ const SignupForm = () => {
         }
 
         setLoading(true);
-        // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1500));
         console.log({ fullName, email, password });
-        // Redirect on successful signup
         window.location.href = '/login';
         setLoading(false);
     };

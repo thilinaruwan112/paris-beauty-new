@@ -1,18 +1,14 @@
-
 "use client";
 import React, { useState, useEffect } from "react";
 import {
   Star,
-  Heart,
-  Share2,
-  Minus,
-  Plus,
-  ShoppingCart,
   ChevronRight,
   CheckCircle,
   Truck,
-  ShieldCheck,
   Send,
+  Minus,
+  Plus,
+  ShoppingCart
 } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,9 +16,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import Image from "next/image";
 
-import { CartItem } from "@/types/CartItem";
+import { CartItem, FormattedProduct, ProductReview } from "@/types";
 import { useCart } from "./CartContext";
-import { FormattedProduct, ProductReview } from "@/types/ViewProduct";
 
 const getImagePath = (imagePath: string): string => {
   if (!imagePath || imagePath.includes("placeholder")) {
@@ -36,10 +31,12 @@ const getImagePath = (imagePath: string): string => {
   if (imagePath.startsWith("/assets/product/")) {
     return imagePath;
   }
-
+  
+  // This logic is potentially problematic if image_path is just a filename
   const filename = imagePath.split('/').pop();
   return `/assets/product/${filename}`;
 };
+
 
 const mockReviews: ProductReview[] = [
     {
@@ -102,7 +99,6 @@ export default function ProductView({ product }: { product: FormattedProduct }) 
   }, [product]);
   
   useEffect(() => {
-    // Use mock reviews if API provides none, otherwise combine them
     const apiReviews = product.reviews || [];
     if (apiReviews.length === 0) {
       setReviews(mockReviews);
@@ -149,10 +145,8 @@ export default function ProductView({ product }: { product: FormattedProduct }) 
         verified: true, // Assuming verification for this simulation
         helpful: 0,
     };
-    // Prepend the new review to the list for immediate feedback
     setReviews([newReview, ...reviews]);
 
-    // Reset form
     setReviewRating(0);
     setReviewTitle("");
     setReviewComment("");
@@ -164,7 +158,6 @@ export default function ProductView({ product }: { product: FormattedProduct }) 
     <>
       <div className="bg-white dark:bg-gray-950">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Breadcrumbs */}
           <nav className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mb-8">
             {product.breadcrumbs.map((crumb, index) => (
               <React.Fragment key={index}>
@@ -179,7 +172,6 @@ export default function ProductView({ product }: { product: FormattedProduct }) 
           </nav>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-            {/* Product Images */}
             <div className="space-y-4">
               <div className="aspect-square rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm">
                 <Image
@@ -219,7 +211,6 @@ export default function ProductView({ product }: { product: FormattedProduct }) 
               )}
             </div>
 
-            {/* Product Info */}
             <div className="space-y-6">
               <span className="inline-block bg-pink-100 dark:bg-pink-900/50 text-pink-600 dark:text-pink-300 px-3 py-1 rounded-full text-sm font-semibold">
                 {product.category}
@@ -284,7 +275,6 @@ export default function ProductView({ product }: { product: FormattedProduct }) 
             </div>
           </div>
 
-          {/* Details Tabs */}
           <div className="mt-16 lg:mt-24">
             <div className="border-b border-gray-200 dark:border-gray-700">
               <div className="flex space-x-8" role="tablist">
@@ -326,7 +316,6 @@ export default function ProductView({ product }: { product: FormattedProduct }) 
             </div>
           </div>
 
-          {/* Reviews Section */}
           <div className="mt-16 lg:mt-24">
              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Customer Reviews & Ratings</h2>
              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">

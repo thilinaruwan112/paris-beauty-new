@@ -1,7 +1,6 @@
-
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProductCard from "../common/ProductCard";
 import SideBar from "./SideBar";
@@ -10,8 +9,7 @@ import { Filter, X, Loader2 } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCart } from "../CartContext";
-import { Filters } from "@/types/shop";
-import { Product } from "@/types/product";
+import { Filters, Product } from "@/types";
 
 const Shop: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -57,7 +55,6 @@ const Shop: React.FC = () => {
     const applyFilters = async () => {
       let tempProducts = [...products];
 
-      // Category filter
       if (filters.categories && filters.categories.length > 0) {
         try {
           const categoryResponses = await Promise.all(
@@ -73,25 +70,21 @@ const Shop: React.FC = () => {
         }
       }
 
-      // Price range
       if (filters.priceRange) {
         tempProducts = tempProducts.filter(
           p => p.selling_price >= filters.priceRange![0] && p.selling_price <= filters.priceRange![1]
         );
       }
 
-      // Rating
       if (filters.ratings && filters.ratings.length > 0) {
         const minRating = Math.min(...filters.ratings);
         tempProducts = tempProducts.filter(p => parseFloat(p.rating) >= minRating);
       }
 
-      // On Sale
       if (filters.onSale) {
         tempProducts = tempProducts.filter(p => p.special_promo > 0);
       }
 
-      // Sorting
       if (filters.sort) {
         tempProducts.sort((a, b) => {
           switch (filters.sort) {
@@ -144,11 +137,6 @@ const Shop: React.FC = () => {
       return;
     }
     setFilters(prev => ({ ...prev, [filterType]: value }));
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.05 } },
   };
 
   const itemVariants = {
@@ -204,7 +192,6 @@ const Shop: React.FC = () => {
         </AnimatePresence>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Desktop Sidebar */}
           <motion.div
             className="hidden lg:block lg:col-span-3"
             initial={{ opacity: 0, x: -20 }}
@@ -216,7 +203,6 @@ const Shop: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Mobile Sidebar */}
           <AnimatePresence>
             {filterActive && (
               <motion.div
@@ -239,7 +225,6 @@ const Shop: React.FC = () => {
             )}
           </AnimatePresence>
 
-          {/* Product Grid */}
           <div className="lg:col-span-9">
             {loading ? (
               <div className="flex justify-center items-center h-96">
@@ -286,5 +271,3 @@ const Shop: React.FC = () => {
 };
 
 export default Shop;
-
-    

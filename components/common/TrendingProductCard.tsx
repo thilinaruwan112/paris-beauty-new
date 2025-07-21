@@ -1,21 +1,20 @@
+"use client";
+
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Star, Heart, Eye, Flame, Zap, ArrowRight } from "lucide-react";
-import { TrendingProductCardProps } from "@/types/product"; 
+import { Star, ArrowRight, Flame, Zap } from "lucide-react";
+import { TrendingProductCardProps } from "@/types"; 
 
 const TrendingProductCard: React.FC<TrendingProductCardProps> = ({
   product,
-  onToggleWishlist,
-  isInWishlist = false,
   salesCount = Math.floor(Math.random() * 1000) + 1,
 }) => {
   const [isHovering, setIsHovering] = useState(false);
 
-  // Create image array from product data
   const primaryImage = `/assets/product/${product.image_path}`;
   const hoverImage = product.hover_image ? `/assets/product/${product.hover_image}` : primaryImage;
-  const hasMultipleImages = product.hover_image ? true : false;
+  const hasMultipleImages = !!product.hover_image;
   
   const discountPercent =
     product.special_promo === 1

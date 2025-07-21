@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { FaInstagram, FaFacebookF, FaTwitter, FaTiktok } from "react-icons/fa";
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
 const JoinOur = () => {

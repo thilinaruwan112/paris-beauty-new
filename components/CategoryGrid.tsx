@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProductCard from "@/components/common/ProductCard";
-import { Product, ProductCategoryViewProps } from "@/types/product";
+import { Product, ProductCategoryViewProps } from "@/types";
 import CollectionHeader from "@/components/CollectionHeader";
 import { motion } from "framer-motion";
 

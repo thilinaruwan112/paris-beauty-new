@@ -1,5 +1,5 @@
 import React from "react";
-import AboutUsPage from "@/components/about/aboutus";
+import AboutUsPage from "@/components/about/AboutUsPage";
 import { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {

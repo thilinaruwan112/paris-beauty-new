@@ -1,6 +1,7 @@
+"use client";
 
 import React from "react";
-import { PriceFilterProps } from "@/types/shop";
+import { PriceFilterProps } from "@/types";
 
 const PriceFilter: React.FC<PriceFilterProps> = ({
   min,
@@ -64,5 +65,3 @@ const PriceFilter: React.FC<PriceFilterProps> = ({
 };
 
 export default PriceFilter;
-
-    

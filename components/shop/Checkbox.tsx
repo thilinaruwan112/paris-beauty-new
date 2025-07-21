@@ -1,6 +1,7 @@
+"use client";
 
 import React from "react";
-import { CheckboxProps } from "@/types/shop";
+import { CheckboxProps } from "@/types";
 
 const Checkbox: React.FC<CheckboxProps> = ({
   id,
@@ -47,5 +48,3 @@ const Checkbox: React.FC<CheckboxProps> = ({
 };
 
 export default Checkbox;
-
-    

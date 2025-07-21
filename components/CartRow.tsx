@@ -1,15 +1,15 @@
+"use client";
+
 import React from 'react';
 import Image from 'next/image';
 import { Trash2, Plus, Minus } from 'lucide-react';
-import { CartRowProps } from '@/types/Sidebar'; // Adjust the import path as necessary
+import { CartRowProps } from '@/types';
 
 const CartRow: React.FC<CartRowProps> = ({ item, onQuantityChange, onRemove }) => {
-  // Fallback image URL - replace with your actual fallback image
   const fallbackImage = '/images/placeholder.jpg';
 
   return (
     <div className="flex space-x-4">
-      {/* Product Image */}
       <div className="flex-shrink-0 w-20 h-20 relative rounded-md overflow-hidden">
         <Image
           src={item.image || fallbackImage}
@@ -20,7 +20,6 @@ const CartRow: React.FC<CartRowProps> = ({ item, onQuantityChange, onRemove }) =
         />
       </div>
 
-      {/* Product Details */}
       <div className="flex-1 flex flex-col">
         <div className="flex justify-between">
           <h3 className="text-sm font-medium text-gray-900 dark:text-white">{item.name}</h3>
@@ -29,7 +28,6 @@ const CartRow: React.FC<CartRowProps> = ({ item, onQuantityChange, onRemove }) =
           </p>
         </div>
         <div className="flex items-center justify-between mt-2">
-          {/* Quantity Controls */}
           <div className="flex items-center border border-gray-200 dark:border-gray-700 rounded-full">
             <button
               onClick={() => onQuantityChange(item.id, -1)}
@@ -48,7 +46,6 @@ const CartRow: React.FC<CartRowProps> = ({ item, onQuantityChange, onRemove }) =
             </button>
           </div>
 
-          {/* Remove Button */}
           <button
             onClick={() => onRemove(item.id)}
             className="text-red-500 hover:text-red-600 dark:hover:text-red-400"

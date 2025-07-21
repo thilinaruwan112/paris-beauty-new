@@ -15,14 +15,11 @@ const LoginForm = () => {
         e.preventDefault();
         setLoading(true);
         setError(null);
-        // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1500));
         console.log({ email, password });
-        // Example error handling
         if (password !== 'password123') {
             setError('Invalid email or password. Please try again.');
         } else {
-            // Handle successful login
             window.location.href = '/';
         }
         setLoading(false);

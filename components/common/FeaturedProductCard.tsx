@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+"use client";
+
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Star, Heart, ShoppingBag } from "lucide-react";
-import { ProductCardProps } from "@/types/product"; 
-import BadgeContainer from "./BadgeContainer";
+import { ProductCardProps } from "@/types"; 
 
 const FeaturedProductCard: React.FC<ProductCardProps> = ({
   product,
@@ -11,14 +12,6 @@ const FeaturedProductCard: React.FC<ProductCardProps> = ({
   onToggleWishlist,
   isInWishlist,
 }) => {
-
-  // Parse specifications from JSON string if it exists
-  const specificationsObj = product.specifications ? JSON.parse(product.specifications) : {};
-  const skinType = specificationsObj.skin_type || "All Skin Types";
-
-  // Parse benefits from string to array
-  const benefitsArray = product.benefits ? product.benefits.split(",") : [];
-
   const getBrandName = (brandId: number) => {
     switch (brandId) {
       case 1: return "CeraVe";
@@ -28,7 +21,6 @@ const FeaturedProductCard: React.FC<ProductCardProps> = ({
     }
   };
 
-  const hasPromo = product.special_promo > 0;
   const imageBasePath = "/assets/product/";
   const primaryImage = `${imageBasePath}${product.image_path}`;
   const hoverImage = product.hover_image ? `${imageBasePath}${product.hover_image}` : primaryImage;

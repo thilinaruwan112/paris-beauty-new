@@ -1,5 +1,7 @@
+"use client";
+
 import React from "react";
-import { ActiveFiltersProps } from "@/types/ActiveFiltersProps";
+import { ActiveFiltersProps } from "@/types";
 
 const ActiveFilters: React.FC<ActiveFiltersProps> = ({
   activeFilters,
@@ -16,7 +18,6 @@ const ActiveFilters: React.FC<ActiveFiltersProps> = ({
     return null;
   }
 
-  // Map sort values to readable labels
   const sortLabels: Record<string, string> = {
     price_asc: "Price: Low to High",
     price_desc: "Price: High to Low",

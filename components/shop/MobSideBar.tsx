@@ -9,14 +9,12 @@ import {
 } from "react-icons/gi";
 import { FaRegHeart } from "react-icons/fa";
 
-// Import our components
 import PriceFilter from "./PriceFilter";
 import SectionHeader from "./SectionHeader";
 import Checkbox from "./Checkbox";
 import ActiveFilters from "./ActiveFilters";
 import SortDropdown from "./SortDropdown";
-// Import types
-import { Category, SideBarProps } from "@/types/Sidebar";
+import { Category, SideBarProps } from "@/types";
 
 const MobSideBar: React.FC<SideBarProps> = ({
   onFilterChange,
@@ -142,7 +140,6 @@ const MobSideBar: React.FC<SideBarProps> = ({
   return (
     <div className="bg-white dark:bg-[#161313]">
       <div className="space-y-6">
-        {/* Sort Section */}
         <div>
           <SectionHeader
             title="Sort Products"
@@ -159,7 +156,6 @@ const MobSideBar: React.FC<SideBarProps> = ({
           )}
         </div>
 
-        {/* Categories Section */}
         <div>
           <SectionHeader
             title="Categories"
@@ -191,7 +187,6 @@ const MobSideBar: React.FC<SideBarProps> = ({
           )}
         </div>
 
-        {/* Price Range Section */}
         <div>
           <SectionHeader
             title="Price Range"
@@ -208,7 +203,6 @@ const MobSideBar: React.FC<SideBarProps> = ({
           )}
         </div>
 
-        {/* Brands Section */}
         <div>
           <SectionHeader
             title="Brands"
@@ -230,7 +224,6 @@ const MobSideBar: React.FC<SideBarProps> = ({
           )}
         </div>
 
-        {/* Rating Section */}
         <div>
           <SectionHeader
             title="Rating"
@@ -267,7 +260,6 @@ const MobSideBar: React.FC<SideBarProps> = ({
           )}
         </div>
 
-        {/* Sale Section */}
         <div>
           <SectionHeader
             title="Sale"
@@ -286,7 +278,6 @@ const MobSideBar: React.FC<SideBarProps> = ({
           )}
         </div>
 
-        {/* Active Filters */}
         <ActiveFilters
           activeFilters={activeFilters}
           onRemoveFilter={handleRemoveFilter}

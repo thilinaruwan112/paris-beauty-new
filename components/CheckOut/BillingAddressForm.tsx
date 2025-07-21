@@ -1,7 +1,6 @@
-
 "use client";
 import React, { useState, ChangeEvent } from "react";
-import { AddressData, BillingAddressFormProps } from "@/types/Checkout";
+import { Address, BillingAddressFormProps } from "@/types";
 
 export default function BillingAddressForm({
   shippingAddress,
@@ -9,7 +8,7 @@ export default function BillingAddressForm({
   setSameAddressStatus,
 }: BillingAddressFormProps) {
   const [useDifferentAddress, setUseDifferentAddress] = useState<boolean>(false);
-  const [billingFormData, setBillingFormData] = useState<AddressData>({
+  const [billingFormData, setBillingFormData] = useState<Address>({
     country: "Sri Lanka",
     firstName: "",
     lastName: "",
@@ -153,5 +152,3 @@ export default function BillingAddressForm({
     </div>
   );
 }
-
-    
