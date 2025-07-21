@@ -2,19 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
-// import { ShoppingBag } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import "react-toastify/dist/ReactToastify.css";
 
 import FeaturedProductCard from "./common/FeaturedProductCard";
 import TitleHeader from "@/components/TitleHeader";
 import { useCart } from "./CartContext";
-import { Product } from "@/types/product"; // Adjust the import path as necessary
+import { Product } from "@/types/product"; 
+import { motion } from "framer-motion";
 
 export default function FeaturedProducts() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -35,20 +30,13 @@ export default function FeaturedProducts() {
         let productsData = response.data;
 
         if (!Array.isArray(productsData)) {
-          if (productsData?.products) {
-            productsData = productsData.products;
-          } else if (productsData?.data) {
-            productsData = productsData.data;
-          } else if (productsData?.results) {
-            productsData = productsData.results;
-          } else if (productsData?.product_id) {
-            productsData = [productsData];
-          } else {
-            throw new Error("Unexpected response format");
-          }
+            if (productsData?.data && Array.isArray(productsData.data)) {
+                productsData = productsData.data;
+            } else {
+                 throw new Error("Unexpected response format");
+            }
         }
-
-        // Type guard to ensure we're working with Product objects
+        
         const validProducts = (productsData as unknown[]).filter(
           (product): product is Product => {
             return (
@@ -58,7 +46,7 @@ export default function FeaturedProducts() {
               ("product_name" in product || "display_name" in product)
             );
           }
-        );
+        ).slice(0, 4); // Take first 4 as featured
 
         setProducts(validProducts);
         setError(null);
@@ -102,95 +90,81 @@ export default function FeaturedProducts() {
         : [...prev, productId]
     );
   };
+  
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2
+      }
+    }
+  };
 
-  if (loading) {
-    return (
-      <section className="py-16 dark:bg-[#1e1e1e] bg-[#fff0e9] transition-colors">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <TitleHeader
-            title="Featured Products"
-            description="Shop premium cosmetics at Paris Beauty. Explore top skincare and makeup products from trusted beauty brands."
-          />
-          <div className="py-12 flex justify-center items-center">
-            <div className="animate-pulse text-lg">Loading products...</div>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
 
-  if (error) {
-    return (
-      <section className="py-16 dark:bg-[#1e1e1e] bg-[#fff0e9] transition-colors">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <TitleHeader
-            title="Featured Products"
-            description="Shop premium cosmetics at Paris Beauty. Explore top skincare and makeup products from trusted beauty brands."
-          />
-          <div className="py-12 text-center text-red-600 dark:text-red-400">
-            {error}
-          </div>
+  const renderContent = () => {
+    if (loading) {
+      return (
+        <div className="py-12 flex justify-center items-center">
+          <div className="animate-pulse text-lg text-gray-500">Loading featured products...</div>
         </div>
-      </section>
+      );
+    }
+  
+    if (error) {
+      return (
+        <div className="py-12 text-center text-red-600 dark:text-red-400">
+          {error}
+        </div>
+      );
+    }
+
+    if (products.length === 0) {
+      return (
+        <div className="py-12 text-center text-gray-500">
+            No featured products available at this time.
+        </div>
+      );
+    }
+
+    return (
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mt-12"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+            {products.map((product) => (
+                <motion.div key={product.product_id} variants={itemVariants}>
+                    <FeaturedProductCard
+                        product={product}
+                        onAddToCart={handleAddToCart}
+                        onToggleWishlist={handleToggleWishlist}
+                        isInWishlist={wishlist.includes(product.product_id)}
+                    />
+                </motion.div>
+            ))}
+        </motion.div>
     );
-  }
+  };
+
 
   return (
-    <section className="py-4 pt-12 lg:p-16 dark:bg-[#1e1e1e] bg-[#fff0e9] transition-colors">
+    <section className="py-16 lg:py-24 bg-rose-50/30 dark:bg-gray-900 transition-colors">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <TitleHeader
           title="Featured Products"
           description="Shop premium cosmetics at Paris Beauty. Explore top skincare and makeup products from trusted beauty brands."
         />
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
-          {/* <button
-            onClick={openCart}
-            className="flex items-center text-sm md:text-xl gap-2 bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-full"
-          >
-            <ShoppingBag className="h-5 w-5" />
-            <span className="">Cart ({getCartCount()})</span>
-          </button> */}
-        </div>
-
-        {products.length > 0 ? (
-          <Swiper
-            modules={[Navigation, Pagination, Autoplay]}
-            spaceBetween={5}
-            slidesPerView={1.2}
-            breakpoints={{
-              640: { slidesPerView: 2.5 },
-              1024: { slidesPerView: 3.5, spaceBetween: 15 },
-              1280: { slidesPerView: 4.5, spaceBetween: 20 },
-            }}
-            navigation={false}
-            pagination={false}
-            autoplay={{
-              delay: 3000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            loop={products.length > 4}
-            className="my-8"
-          >
-            {products.map((product) => (
-              <SwiperSlide className="my-6" key={product.product_id}>
-                <FeaturedProductCard
-                  product={product}
-                  onAddToCart={handleAddToCart}
-                  onToggleWishlist={handleToggleWishlist}
-                  isInWishlist={wishlist.includes(product.product_id)}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        ) : (
-          <div className="py-12 text-center">
-            No featured products available at this time.
-          </div>
-        )}
+        {renderContent()}
       </div>
-
-      <ToastContainer />
+      <ToastContainer position="bottom-right" />
     </section>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Sparkles, Loader2, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 
@@ -26,16 +26,19 @@ export default function TrendingProducts() {
         setLoading(true);
         setError(null);
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`); //
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`);
 
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
 
         const data = await res.json();
+        
+        // Ensure data is an array before filtering
+        const allProducts = Array.isArray(data) ? data : (data.data && Array.isArray(data.data) ? data.data : []);
 
         // Filter and sort products by productIds order
-        const filteredProducts = data
+        const filteredProducts = allProducts
           .filter((product: Product) => productIds.includes(product.product_id))
           .sort(
             (a: Product, b: Product) =>
@@ -55,92 +58,48 @@ export default function TrendingProducts() {
     fetchProducts();
   }, []); // Empty dependency array is now correct
 
-  // Loading state
-  if (loading) {
-    return (
-      <section className="py-8 bg-[#fff0e9] dark:bg-[#1e1e1e] transition-colors">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 mb-8">
-            <Sparkles className="h-8 w-8 text-pink-600" />
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
-              Trending Now
-            </h2>
-          </div>
-
-          <div className="flex items-center justify-center py-12">
-            <div className="flex flex-col items-center gap-4">
-              <Loader2 className="h-8 w-8 animate-spin text-pink-600" />
-              <p className="text-gray-600 dark:text-gray-400">
-                Loading trending products...
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  // Error state
-  if (error) {
-    return (
-      <section className="py-16 bg-[#fff0e9] dark:bg-[#1e1e1e] transition-colors">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 mb-8">
-            <Sparkles className="h-8 w-8 text-pink-600" />
-            <TitleHeader
-              title="Trending Products"
-              description="Discover what's hot at Paris Beauty. Shop trending cosmetics and beauty must-haves loved by our customers."
-            />
-          </div>
-
-          <div className="flex items-center justify-center py-12">
-            <div className="flex flex-col items-center gap-4 text-center">
-              <AlertCircle className="h-8 w-8 text-red-500" />
-              <p className="text-red-600 dark:text-red-400">{error}</p>
-              <button
-                onClick={() => window.location.reload()}
-                className="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg transition-colors"
-              >
-                Try Again
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  // Empty state
-  if (products.length === 0) {
-    return (
-      <section className="py-16 bg-[#fff0e9] dark:bg-[#1e1e1e] transition-colors">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 mb-8">
-            <Sparkles className="h-8 w-8 text-pink-600" />
-            <TitleHeader
-              title="Trending Products"
-              description="Discover what's hot at Paris Beauty. Shop trending cosmetics and beauty must-haves loved by our customers."
-            />
-          </div>
-
-          <div className="flex items-center justify-center py-12">
+  const renderContent = () => {
+    if (loading) {
+      return (
+        <div className="flex items-center justify-center py-12">
+          <div className="flex flex-col items-center gap-4">
+            <Loader2 className="h-8 w-8 animate-spin text-pink-600" />
             <p className="text-gray-600 dark:text-gray-400">
-              No trending products found.
+              Loading trending products...
             </p>
           </div>
         </div>
-      </section>
-    );
-  }
+      );
+    }
+  
+    if (error) {
+      return (
+        <div className="flex items-center justify-center py-12">
+          <div className="flex flex-col items-center gap-4 text-center">
+            <AlertCircle className="h-8 w-8 text-red-500" />
+            <p className="text-red-600 dark:text-red-400">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      );
+    }
+  
+    if (products.length === 0) {
+      return (
+        <div className="flex items-center justify-center py-12">
+          <p className="text-gray-600 dark:text-gray-400">
+            No trending products found.
+          </p>
+        </div>
+      );
+    }
 
-  return (
-    <section className="py-16 bg-[#fff0e9] dark:bg-[#1e1e1e] transition-colors">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <TitleHeader
-          title="Trending Products"
-          description="Discover what's hot at Paris Beauty. Shop trending cosmetics and beauty must-haves loved by our customers."
-        />
-
+    return (
         <Swiper
           modules={[Autoplay, Navigation]}
           autoplay={{
@@ -160,7 +119,7 @@ export default function TrendingProducts() {
           className="py-12"
         >
           {products.slice(0, 6).map((product) => (
-            <SwiperSlide key={product.product_id}>
+            <SwiperSlide key={product.product_id} className="h-full">
               <TrendingProductCard
                 product={product}
                 salesCount={Math.floor(Math.random() * (500 - 50 + 1)) + 50}
@@ -168,6 +127,17 @@ export default function TrendingProducts() {
             </SwiperSlide>
           ))}
         </Swiper>
+    );
+  }
+
+  return (
+    <section className="py-16 lg:py-24 bg-rose-50/30 dark:bg-gray-900 transition-colors">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <TitleHeader
+          title="Trending Now"
+          description="Discover what's hot at Paris Beauty. Shop trending cosmetics and beauty must-haves loved by our customers."
+        />
+        {renderContent()}
       </div>
     </section>
   );

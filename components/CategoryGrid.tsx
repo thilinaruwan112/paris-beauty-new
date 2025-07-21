@@ -1,14 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ProductCard from "@/components/common/ProductCard"; // Import your ProductCard component
-
-import { Product, ProductCategoryViewProps } from "@/types/product"; // Import the Product interface
+import ProductCard from "@/components/common/ProductCard";
+import { Product, ProductCategoryViewProps } from "@/types/product";
 import CollectionHeader from "@/components/CollectionHeader";
+import { motion } from "framer-motion";
 
 export default function ProductCategoryView({
   searchTerm = "serum",
-  initialData = null,
+  categoryName,
   toggleBgColor = 0,
 }: ProductCategoryViewProps) {
   const [products, setProducts] = useState<Product[]>([]);
@@ -17,31 +17,21 @@ export default function ProductCategoryView({
   const [wishlist, setWishlist] = useState<number[]>([]);
 
   useEffect(() => {
-    // If we have initial data, use it
-    if (initialData) {
-      if (initialData.success && Array.isArray(initialData.data)) {
-        setProducts(initialData.data);
-      }
-      setLoading(false);
-      return;
-    }
-
     const fetchProducts = async () => {
       try {
         setLoading(true);
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/products/search/category?term=${searchTerm}`
-        ); //
+        );
 
-        if (
-          response.data &&
-          response.data.success &&
-          Array.isArray(response.data.data)
-        ) {
-          setProducts(response.data.data);
-        } else {
-          setProducts([]);
+        let productsData = response.data;
+        if (productsData?.success && Array.isArray(productsData.data)) {
+          productsData = productsData.data;
+        } else if (!Array.isArray(productsData)) {
+            productsData = [];
         }
+
+        setProducts(productsData.slice(0, 4)); // Limit to 4 products
         setLoading(false);
       } catch (err) {
         console.error("Error fetching products:", err);
@@ -51,73 +41,100 @@ export default function ProductCategoryView({
     };
 
     fetchProducts();
-  }, [searchTerm, initialData]);
+  }, [searchTerm]);
 
-  // Handle adding product to cart
   const handleAddToCart = (productId: number) => {
     console.log(`Added product ${productId} to cart`);
-    // Here you would implement your cart logic
-    // For example, dispatch to a cart context or store
   };
 
-  // Handle toggling product in wishlist
   const handleToggleWishlist = (productId: number) => {
-    setWishlist((prevWishlist) => {
-      if (prevWishlist.includes(productId)) {
-        return prevWishlist.filter((id) => id !== productId);
-      } else {
-        return [...prevWishlist, productId];
-      }
-    });
+    setWishlist((prevWishlist) =>
+      prevWishlist.includes(productId)
+        ? prevWishlist.filter((id) => id !== productId)
+        : [...prevWishlist, productId]
+    );
   };
 
-  // Check if a product is in the wishlist
   const isInWishlist = (productId: number) => wishlist.includes(productId);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
+  const renderContent = () => {
+    if (loading) {
+      return (
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-pink-600"></div>
+        </div>
+      );
+    }
+    if (error) {
+      return (
+        <div className="text-center py-10">
+          <p className="text-red-500">{error}</p>
+        </div>
+      );
+    }
+    if (products.length === 0) {
+      return (
+        <div className="text-center py-10">
+          <p className="text-gray-600 dark:text-gray-300">
+            No products found for &quot;{searchTerm}&quot;.
+          </p>
+        </div>
+      );
+    }
+    return (
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        {products.map((product) => (
+          <motion.div key={product.product_id} className="h-full" variants={itemVariants}>
+            <ProductCard
+              product={product}
+              onAddToCart={handleAddToCart}
+              onToggleWishlist={handleToggleWishlist}
+              isInWishlist={isInWishlist(product.product_id)}
+            />
+          </motion.div>
+        ))}
+      </motion.div>
+    );
+  };
 
   return (
     <section
-      className={`py-16 transition-colors ${
+      className={`py-16 lg:py-24 transition-colors ${
         toggleBgColor
-          ? "bg-[#fff0e9] dark:bg-[#1e1e1e]"
-          : "bg-white dark:bg-[#161313]"
+          ? "bg-rose-50/30 dark:bg-gray-900"
+          : "bg-white dark:bg-gray-950"
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-2 mb-8">
+        <div className="flex items-center justify-between mb-8">
           <CollectionHeader
-            title={searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1)}
-            description=""
+            title={categoryName}
+            description={`Explore our handpicked selection of ${categoryName.toLowerCase()} essentials.`}
           />
+           <a href="/shop" className="hidden sm:inline-block bg-pink-600 text-white py-2 px-6 rounded-full hover:bg-pink-700 transition-colors font-semibold">
+              View All
+            </a>
         </div>
-
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-pink-600"></div>
-          </div>
-        ) : error ? (
-          <div className="text-center py-10">
-            <p className="text-red-500">{error}</p>
-          </div>
-        ) : products.length === 0 ? (
-          <div className="text-center py-10">
-            <p className="text-gray-600 dark:text-gray-300">
-              No products found for &quot;{searchTerm}&quot;.
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <div key={product.product_id} className="h-full">
-                <ProductCard
-                  product={product}
-                  onAddToCart={handleAddToCart}
-                  onToggleWishlist={handleToggleWishlist}
-                  isInWishlist={isInWishlist(product.product_id)}
-                />
-              </div>
-            ))}
-          </div>
-        )}
+        {renderContent()}
       </div>
     </section>
   );

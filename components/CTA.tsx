@@ -1,60 +1,46 @@
 import React from "react";
+import { Mail, ArrowRight } from "lucide-react";
+import { motion } from 'framer-motion';
 
 function CTA() {
   return (
-    <section className="dark:bg-[#1e1e1e] bg-[#fff0e9]">
-      <div className="p-8 md:p-12 lg:px-16 lg:py-24">
-        <div className="mx-auto max-w-lg text-center">
-          <h2 className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white border-b-2 pb-4 mb-2">
-            Achieve Radiant Skin with Our Premium Skincare
+    <section className="bg-gradient-to-br from-rose-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-950 dark:to-black py-16 lg:py-24">
+      <motion.div 
+        className="container mx-auto px-6 text-center"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+      >
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            Join the Paris Beauty Club
           </h2>
-
-          <p className="hidden text-gray-500 sm:mt-4 sm:block">
-            Experience the glow of healthy, nourished skin with our range of
-            expertly crafted skincare products. Powered by natural ingredients
-            and advanced science, we offer solutions to brighten, hydrate, and
-            protect your skin. Reveal your natural radiance with every use.
+          <p className="text-gray-600 dark:text-gray-300 sm:text-lg mb-8">
+            Be the first to know about new arrivals, exclusive sales, and beauty tips. Subscribe to our newsletter and unlock your glow.
           </p>
         </div>
 
-        <div className="mx-auto mt-8 max-w-xl">
-          <form action="#" className="sm:flex sm:gap-4">
-            <div className="sm:flex-1">
-              <label htmlFor="email" className="sr-only">
-                Email
-              </label>
-
+        <div className="mx-auto mt-8 max-w-lg">
+          <form action="#" className="sm:flex sm:gap-4 items-center bg-white dark:bg-gray-800/50 p-2 rounded-full shadow-lg border border-gray-100 dark:border-gray-700/50">
+            <div className="relative flex-1">
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
               <input
                 type="email"
-                placeholder="Email address"
-                className="w-full rounded-md border-gray-200 bg-white p-3 text-gray-700 shadow-xs transition focus:border-white focus:ring-3 focus:ring-yellow-400 focus:outline-hidden"
+                placeholder="Enter your email address"
+                className="w-full rounded-full border-transparent bg-transparent p-3 pl-12 text-gray-700 dark:text-gray-200 placeholder:text-gray-400 focus:ring-0 focus:outline-none"
               />
             </div>
-
             <button
               type="submit"
-              className="group mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-rose-600 px-5 py-3 text-white transition focus:ring-3 focus:ring-yellow-400 focus:outline-hidden sm:mt-0 sm:w-auto"
+              className="group mt-4 sm:mt-0 flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 px-6 py-3 text-white font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105"
             >
-              <span className="text-sm font-medium"> Sign Up </span>
-
-              <svg
-                className="size-5 shadow-sm rtl:rotate-180"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
+              <span>Sign Up</span>
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </button>
           </form>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
