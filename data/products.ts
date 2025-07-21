@@ -1,4 +1,4 @@
-import  {Review} from  "@/types/Review";
+import  {ProductReview} from  "@/types";
 
 export interface Product {
   id: string;
@@ -16,7 +16,7 @@ export interface Product {
   category: string;
   breadcrumbs: string[];
   metaDescription: string;
-  reviews: Review[];
+  reviews: ProductReview[];
 }
 
 
@@ -383,4 +383,5 @@ export const products: Product[] = [
 
   
 ];
+
 
