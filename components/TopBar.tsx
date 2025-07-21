@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 interface TopBarProps {
@@ -12,7 +13,10 @@ const TopBar: React.FC<TopBarProps> = ({ showTopBar, message }) => {
         showTopBar ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
       }`}
       style={{
-        position: showTopBar ? "static" : "absolute",
+        position: showTopBar ? "fixed" : "static",
+        top: 0,
+        left: 0,
+        right: 0,
         zIndex: 40,
         width: "100%",
       }}

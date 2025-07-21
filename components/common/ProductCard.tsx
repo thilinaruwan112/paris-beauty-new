@@ -85,7 +85,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <div className="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700/50">
             <div className="flex items-center justify-between">
               <span className="text-xl font-bold text-gray-900 dark:text-white">
-                ${product.selling_price.toFixed(2)}
+                LKR {product.selling_price.toFixed(2)}
               </span>
               <button
                 onClick={(e) => {
