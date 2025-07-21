@@ -100,7 +100,7 @@ export default function MobileNavbar({ isOpen, onClose }: MobileNavbarProps) {
             Shop
           </Link>
           <Link
-            href="/contactus"
+            href="/contact"
             onClick={handleClose}
             className="flex items-center py-3 px-2 text-gray-700 dark:text-gray-300 hover:text-pink-500 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-all"
           >
@@ -110,13 +110,14 @@ export default function MobileNavbar({ isOpen, onClose }: MobileNavbarProps) {
 
         {/* User Section */}
         <div className="p-4 border-t border-gray-200 dark:border-gray-700 mt-auto">
-          <button
+          <Link
+            href="/login"
             onClick={handleClose}
             className="flex items-center w-full py-3 px-2 text-gray-700 dark:text-gray-300 hover:text-pink-500 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-all"
           >
             <User className="h-5 w-5 mr-3" />
             My Account
-          </button>
+          </Link>
         </div>
       </div>
     </>

@@ -183,12 +183,13 @@ export default function Navbar(): JSX.Element {
               </button>
 
               {/* User Icon - Hidden on mobile */}
-              <button
+              <Link
+                href="/login"
                 className="hidden md:flex p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer"
                 aria-label="User account"
               >
                 <User className="h-6 w-6 text-gray-600 dark:text-gray-300" />
-              </button>
+              </Link>
 
               {/* Cart Button */}
               <button
