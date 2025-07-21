@@ -3,11 +3,11 @@ import AboutUsPage from "@/components/about/aboutus";
 import { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
-  title: "About | Premium Beauty & Skincare Products Online",
+  title: "About Us | Paris Beauty",
   description:
-    "Discover a wide range of premium beauty and skincare products at our Cosmetic Shop. Shop for makeup, skincare, haircare, and more with fast delivery and expert advice.",
+    "Learn the story behind Paris Beauty. Discover our mission to bring you premium, honest, and natural beauty products. Join our community and celebrate your unique beauty.",
   keywords:
-    "cosmetic shop, beauty products, skincare, makeup, skincare products, premium cosmetics, online beauty store, skincare online, makeup online, beauty essentials",
+    "about us, paris beauty, cosmetic shop, beauty products, skincare, makeup, our story, beauty community",
   robots: "index, follow",
 };
 
@@ -18,7 +18,7 @@ export const viewport: Viewport = {
 
 const Page: React.FC = () => {
   return (
-    <div className="">
+    <div className="bg-white dark:bg-gray-900">
       <AboutUsPage />
     </div>
   );

@@ -1,38 +1,30 @@
 "use client";
 import React from "react";
-import Image from "next/image"; // Importing Image component from Next.js
+import Image from "next/image";
 
 const OurPromise = () => {
   return (
-    <section className="py-8 bg-pink-50 transform translate-y-10 transition duration-1000 ease-out">
+    <section className="py-16 lg:py-24 bg-gradient-to-br from-rose-50 to-pink-100 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-6 text-center max-w-3xl">
-        <h2 className="text-4xl font-bold text-gray-800 mb-6">Our Promise</h2>
-        <div className="w-24 h-1 bg-pink-400 mx-auto mb-12"></div>
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Our Promise to You</h2>
+        <div className="w-24 h-1 bg-pink-400 mx-auto mb-8"></div>
 
-        <p className="text-gray-600 mb-6 text-lg italic">
-          &quot;Every Luxe product is 100% genuine. When we say natural, we mean
-          it. When we claim a benefit, we&apos;ve tested it.&quot;
+        <p className="text-gray-700 dark:text-gray-300 mb-6 text-lg italic leading-relaxed">
+          &quot;Every product is crafted with integrity. When we say natural, we mean it. When we claim a benefit, we&apos;ve tested it. We create products we use ourselves and proudly share with our friends and family.&quot;
         </p>
 
-         <div className=" flex justify-center mb-6">
+        <div className="flex justify-center mb-6">
            <Image
-          src="/assets/content/LogoHorizontal-optimized.png"
-          alt="Company Logo"
-          width={96}
-          height={32}
-          className="w-28"
-          priority
-        />
-         </div>
-        <p className="text-gray-600 mb-8">
-          We create products we use ourselves every day and share with our own
-          friends and family. Our growing collection is designed specifically
-          with young skin in mind. We understand the unique challenges of
-          teenage skin – from acne concerns to finding your personal style – and
-          create products that work with your skin, not against it.
-        </p>
-
-        <p className="text-2xl font-light text-pink-600">
+            src="/assets/content/LogoHorizontal-optimized.png"
+            alt="Paris Beauty Logo"
+            width={112}
+            height={40}
+            className="w-28"
+            priority
+          />
+        </div>
+        
+        <p className="text-2xl font-light text-pink-600 dark:text-pink-400">
           Naturally Beautiful, Genuinely You.
         </p>
       </div>
