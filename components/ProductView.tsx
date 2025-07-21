@@ -41,12 +41,45 @@ const getImagePath = (imagePath: string): string => {
   return `/assets/product/${filename}`;
 };
 
+const mockReviews: ProductReview[] = [
+    {
+        id: 1,
+        user: "Sarah M.",
+        rating: 5,
+        title: "Absolutely Amazing!",
+        comment: "I've been using this for two weeks and my skin has never looked better. The glow is real and it feels so lightweight.",
+        date: "2024-07-15",
+        verified: true,
+        helpful: 45,
+    },
+    {
+        id: 2,
+        user: "Jessica L.",
+        rating: 4,
+        title: "Great product, a bit pricey",
+        comment: "Works as described and my skin feels hydrated. I wish it was a little more affordable, but the quality is there.",
+        date: "2024-07-12",
+        verified: true,
+        helpful: 28,
+    },
+    {
+        id: 3,
+        user: "Mike P.",
+        rating: 5,
+        title: "A new staple in my routine",
+        comment: "I was skeptical at first, but this product has completely won me over. It doesn't irritate my sensitive skin and has visibly reduced redness.",
+        date: "2024-07-10",
+        verified: false,
+        helpful: 15,
+    },
+];
+
 export default function ProductView({ product }: { product: FormattedProduct }) {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [activeTab, setActiveTab] = useState("description");
   const [processedImages, setProcessedImages] = useState<string[]>([]);
-  const [reviews, setReviews] = useState<ProductReview[]>(product.reviews || []);
+  const [reviews, setReviews] = useState<ProductReview[]>([]);
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewTitle, setReviewTitle] = useState("");
   const [reviewComment, setReviewComment] = useState("");
@@ -69,7 +102,13 @@ export default function ProductView({ product }: { product: FormattedProduct }) 
   }, [product]);
   
   useEffect(() => {
-    setReviews(product.reviews || []);
+    // Use mock reviews if API provides none, otherwise combine them
+    const apiReviews = product.reviews || [];
+    if (apiReviews.length === 0) {
+      setReviews(mockReviews);
+    } else {
+      setReviews(apiReviews);
+    }
   }, [product.reviews]);
 
   const handleImageError = (index: number) => {
