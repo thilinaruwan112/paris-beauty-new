@@ -118,7 +118,7 @@ export default function Navbar(): JSX.Element {
                     alt="Company Logo"
                     width={96}
                     height={32}
-                    className="w-24 dark:invert dark:brightness-200"
+                    className="w-24 dark:brightness-0 dark:invert"
                     priority
                   />
                 </Link>

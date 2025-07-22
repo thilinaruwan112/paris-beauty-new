@@ -17,7 +17,7 @@ const Footer = () => {
                                 alt="Paris Beauty Logo"
                                 width={120}
                                 height={40}
-                                className="dark:invert dark:brightness-200"
+                                className="dark:brightness-0 dark:invert"
                             />
                         </Link>
                         <p className="text-sm max-w-sm mb-6">

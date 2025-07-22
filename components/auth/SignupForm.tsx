@@ -38,7 +38,7 @@ const SignupForm = () => {
                         alt="Paris Beauty Logo"
                         width={120}
                         height={40}
-                        className="mb-4 dark:invert dark:brightness-200"
+                        className="mb-4 dark:brightness-0 dark:invert"
                     />
                 </Link>
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">Create Your Account</h1>
