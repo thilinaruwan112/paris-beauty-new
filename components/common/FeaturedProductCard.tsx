@@ -27,7 +27,7 @@ const FeaturedProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div className="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg border border-gray-100 dark:border-gray-700/50 flex flex-col h-full">
-      <div className="relative w-full h-44 sm:h-48 overflow-hidden bg-gray-50 dark:bg-gray-800">
+      <div className="relative w-full h-40 overflow-hidden bg-gray-50 dark:bg-gray-800">
         <Link href={`/products/${product.slug}`} className="block h-full">
           <Image
             src={primaryImage}
@@ -60,7 +60,7 @@ const FeaturedProductCard: React.FC<ProductCardProps> = ({
         </button>
       </div>
 
-      <div className="p-4 flex flex-col flex-grow">
+      <div className="p-3 flex flex-col flex-grow">
           <Link href={`/products/${product.slug}`} className="block flex-grow">
               <p className="text-xs font-medium text-pink-600 dark:text-pink-400 uppercase truncate mb-1">
                   {getBrandName(product.brand_id)}
@@ -70,9 +70,9 @@ const FeaturedProductCard: React.FC<ProductCardProps> = ({
               </h3>
           </Link>
 
-        <div className="mt-2 pt-2 flex items-center justify-between">
-          <span className="text-lg font-bold text-gray-900 dark:text-white">
-            LKR {product.selling_price.toFixed(2)}
+        <div className="mt-auto pt-2 flex items-end justify-between">
+          <span className="text-base font-bold text-gray-900 dark:text-white">
+            Rs {product.selling_price.toFixed(2)}
           </span>
            <button
               onClick={(e) => {
