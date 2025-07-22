@@ -60,31 +60,31 @@ const FeaturedProductCard: React.FC<ProductCardProps> = ({
         </button>
       </div>
 
-        <div className="p-3 flex flex-col flex-grow">
-            <Link href={`/products/${product.slug}`} className="block">
-                <p className="text-xs font-medium text-pink-600 dark:text-pink-400 uppercase truncate mb-1">
-                    {getBrandName(product.brand_id)}
-                </p>
-                <h3 className="text-sm font-bold text-gray-800 dark:text-white line-clamp-2 min-h-[2.5rem] group-hover:text-pink-700 dark:group-hover:text-pink-400 transition-colors">
-                    {product.display_name || product.product_name}
-                </h3>
-            </Link>
+      <div className="p-4 flex flex-col flex-grow">
+          <Link href={`/products/${product.slug}`} className="block flex-grow">
+              <p className="text-xs font-medium text-pink-600 dark:text-pink-400 uppercase truncate mb-1">
+                  {getBrandName(product.brand_id)}
+              </p>
+              <h3 className="text-sm font-semibold text-gray-800 dark:text-white leading-snug line-clamp-2 min-h-[2.5rem] group-hover:text-pink-700 dark:group-hover:text-pink-400 transition-colors">
+                  {product.display_name || product.product_name}
+              </h3>
+          </Link>
 
-          <div className="mt-auto pt-2 flex items-end justify-between">
-            <span className="text-md font-bold text-gray-900 dark:text-white">
-              {product.selling_price.toFixed(2)}
-            </span>
-             <button
-                onClick={(e) => {
-                    e.preventDefault();
-                    onAddToCart(product.product_id);
-                }}
-                className="flex items-center justify-center bg-gray-100 dark:bg-gray-700/80 hover:bg-pink-500 dark:hover:bg-pink-600 text-gray-600 dark:text-gray-300 hover:text-white p-2 rounded-full transition-all"
-            >
-                <ShoppingBag className="h-4 w-4" />
-            </button>
-          </div>
+        <div className="mt-2 pt-2 flex items-center justify-between">
+          <span className="text-lg font-bold text-gray-900 dark:text-white">
+            LKR {product.selling_price.toFixed(2)}
+          </span>
+           <button
+              onClick={(e) => {
+                  e.preventDefault();
+                  onAddToCart(product.product_id);
+              }}
+              className="flex items-center justify-center bg-gray-100 dark:bg-gray-700/80 hover:bg-pink-500 dark:hover:bg-pink-600 text-gray-600 dark:text-gray-300 hover:text-white w-9 h-9 rounded-full transition-all"
+          >
+              <ShoppingBag className="h-4 w-4" />
+          </button>
         </div>
+      </div>
     </div>
   );
 };
