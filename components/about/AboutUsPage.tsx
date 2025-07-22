@@ -41,7 +41,7 @@ const AboutUsPage: React.FC = () => {
             Beyond the Surface
           </h1>
           <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            We're crafting the future of beauty: a world where elegance, ethics, and efficacy exist in perfect harmony.
+            We&apos;re crafting the future of beauty: a world where elegance, ethics, and efficacy exist in perfect harmony.
           </p>
         </div>
       </motion.section>

@@ -31,7 +31,7 @@ const OurPromise = () => {
         >
           <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-bold mb-4">Our Core Values</motion.h2>
           <motion.p variants={fadeIn} className="text-gray-600 dark:text-gray-300 mb-12 max-w-2xl mx-auto">
-            These aren't just words; they're the principles we live by. They guide our formulations, our partnerships, and our promise to you.
+            These aren&apos;t just words; they&apos;re the principles we live by. They guide our formulations, our partnerships, and our promise to you.
           </motion.p>
         </motion.div>
         

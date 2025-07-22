@@ -7,7 +7,6 @@ import { PromoCodeData, ApplicableProductData, OrderSummaryProps } from "@/types
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({
   cart,
-  finalAmount,
   shippingFee,
   setPromoCode,
   setFinalPayAmount,

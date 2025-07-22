@@ -11,7 +11,7 @@ const JoinOur = () => {
             Become a Paris Beauty Insider
         </h2>
         <p className="text-white/80 mb-8 max-w-2xl mx-auto">
-            Join our vibrant community for exclusive content, early access to new products, and a celebration of all things beauty. Let's connect!
+            Join our vibrant community for exclusive content, early access to new products, and a celebration of all things beauty. Let&apos;s connect!
         </p>
 
         <div className="flex justify-center space-x-3 sm:space-x-4 mb-10">

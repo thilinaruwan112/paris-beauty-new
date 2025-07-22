@@ -10,7 +10,7 @@ import "swiper/css/navigation";
 
 import TrendingProductCard from "./common/TrendingProductCard";
 import TitleHeader from "@/components/TitleHeader";
-import { Product, TrendingProductCardProps } from "@/types";
+import { Product } from "@/types";
 
 export default function TrendingProducts() {
   const [products, setProducts] = useState<Product[]>([]);
