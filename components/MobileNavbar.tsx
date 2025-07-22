@@ -58,7 +58,7 @@ export default function MobileNavbar({ isOpen, onClose }: MobileNavbarProps) {
               alt="Company Logo"
               width={96}
               height={32}
-              className="w-24"
+              className="w-24 dark:invert dark:brightness-200"
               priority
             />
           </Link>

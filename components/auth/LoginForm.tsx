@@ -34,7 +34,7 @@ const LoginForm = () => {
                         alt="Paris Beauty Logo"
                         width={120}
                         height={40}
-                        className="mb-4"
+                        className="mb-4 dark:invert dark:brightness-200"
                     />
                 </Link>
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">Welcome Back</h1>
