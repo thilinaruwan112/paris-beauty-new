@@ -26,8 +26,8 @@ const FeaturedProductCard: React.FC<ProductCardProps> = ({
   const hoverImage = product.hover_image ? `${imageBasePath}${product.hover_image}` : primaryImage;
 
   return (
-    <div className="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg border border-gray-100 dark:border-gray-700/50 flex flex-col">
-      <div className="relative w-full h-48 sm:h-52 overflow-hidden bg-gray-50 dark:bg-gray-800">
+    <div className="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg border border-gray-100 dark:border-gray-700/50 flex flex-col h-full">
+      <div className="relative w-full h-44 sm:h-48 overflow-hidden bg-gray-50 dark:bg-gray-800">
         <Link href={`/products/${product.slug}`} className="block h-full">
           <Image
             src={primaryImage}
@@ -70,19 +70,18 @@ const FeaturedProductCard: React.FC<ProductCardProps> = ({
                 </h3>
             </Link>
 
-          <div className="mt-auto pt-2 flex items-center justify-between">
-            <span className="text-lg font-bold text-gray-900 dark:text-white">
-              LKR {product.selling_price.toFixed(2)}
+          <div className="mt-auto pt-2 flex items-end justify-between">
+            <span className="text-md font-bold text-gray-900 dark:text-white">
+              {product.selling_price.toFixed(2)}
             </span>
              <button
                 onClick={(e) => {
                     e.preventDefault();
                     onAddToCart(product.product_id);
                 }}
-                className="flex items-center justify-center gap-1.5 bg-pink-600 hover:bg-pink-700 text-white px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300"
+                className="flex items-center justify-center bg-gray-100 dark:bg-gray-700/80 hover:bg-pink-500 dark:hover:bg-pink-600 text-gray-600 dark:text-gray-300 hover:text-white p-2 rounded-full transition-all"
             >
-                <ShoppingBag className="h-3.5 w-3.5" />
-                <span>Add</span>
+                <ShoppingBag className="h-4 w-4" />
             </button>
           </div>
         </div>
