@@ -23,7 +23,7 @@ function CTA() {
         </div>
 
         <div className="mx-auto mt-8 max-w-lg">
-          <form action="#" className="sm:flex sm:gap-4 items-center bg-white dark:bg-gray-800/50 p-2 rounded-full shadow-lg border border-gray-100 dark:border-gray-700/50">
+          <form action="#" className="flex gap-2 items-center bg-white dark:bg-gray-800/50 p-2 rounded-full shadow-lg border border-gray-100 dark:border-gray-700/50">
             <div className="relative flex-1">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
               <input
@@ -34,9 +34,9 @@ function CTA() {
             </div>
             <button
               type="submit"
-              className="group mt-4 sm:mt-0 flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 px-6 py-3 text-white font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105"
+              className="group flex-shrink-0 flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 px-6 py-3 text-white font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105"
             >
-              <span>Sign Up</span>
+              <span className="hidden sm:inline">Sign Up</span>
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </button>
           </form>
