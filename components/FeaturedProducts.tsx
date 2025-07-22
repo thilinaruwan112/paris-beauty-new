@@ -134,7 +134,7 @@ export default function FeaturedProducts() {
 
     return (
         <motion.div
-          className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mt-12"
+          className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
